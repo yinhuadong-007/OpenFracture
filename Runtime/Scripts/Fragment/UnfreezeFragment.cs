@@ -15,9 +15,17 @@ public class UnfreezeFragment : MonoBehaviour
     // True if this fragment has already been unfrozen
     private bool isFrozen = true;
 
+    private void Start()
+    {
+        //gpu instancing
+        // MeshRenderer mr = GetComponent<MeshRenderer>();
+        // MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        // mr.SetPropertyBlock(mpb);
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (!this.isFrozen) 
+        if (!this.isFrozen)
         {
             return;
         }
@@ -40,10 +48,10 @@ public class UnfreezeFragment : MonoBehaviour
             }
         }
     }
-    
+
     void OnTriggerEnter(Collider collider)
     {
-        if (!this.isFrozen) 
+        if (!this.isFrozen)
         {
             return;
         }
@@ -59,12 +67,12 @@ public class UnfreezeFragment : MonoBehaviour
     {
         if (this.unfreezeAll)
         {
-            foreach(UnfreezeFragment fragment in this.transform.parent.GetComponentsInChildren<UnfreezeFragment>())
+            foreach (UnfreezeFragment fragment in this.transform.parent.GetComponentsInChildren<UnfreezeFragment>())
             {
                 fragment.UnfreezeThis();
             }
-        } 
-        else 
+        }
+        else
         {
             UnfreezeThis();
         }
@@ -78,6 +86,6 @@ public class UnfreezeFragment : MonoBehaviour
     private void UnfreezeThis()
     {
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        this.isFrozen = false;   
+        this.isFrozen = false;
     }
 }

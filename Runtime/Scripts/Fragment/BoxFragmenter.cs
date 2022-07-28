@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 using UnityEditor;
 #endif
 
-public static class Fragmenter
+public static class BoxFragmenter
 {
     /// <summary>
     /// Generates the mesh fragments based on the provided options. The generated fragment objects are
@@ -251,12 +251,16 @@ public static class Fragmenter
             var meshFilter = fragment.GetComponent<MeshFilter>();
             meshFilter.sharedMesh = meshes[k];
 
-            var collider = fragment.GetComponent<MeshCollider>();
+            // var collider = fragment.GetComponent<MeshCollider>();
 
-            // If fragment collisions are disabled, collider will be null
-            collider.sharedMesh = meshes[k];
-            collider.convex = true;
-            collider.sharedMaterial = fragment.GetComponent<Collider>().sharedMaterial;
+            // // If fragment collisions are disabled, collider will be null
+            // collider.sharedMesh = meshes[k];
+            // collider.convex = true;
+            // collider.sharedMaterial = fragment.GetComponent<Collider>().sharedMaterial;
+
+            var collider = fragment.GetComponent<BoxCollider>();
+            collider.center = meshFilter.sharedMesh.bounds.center;
+            collider.size = meshFilter.sharedMesh.bounds.extents * 2;
 
             // Compute mass of the sliced object by dividing mesh bounds by density
             var parentRigidBody = sourceObject.GetComponent<Rigidbody>();
